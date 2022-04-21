@@ -192,9 +192,126 @@ namespace Illion0.Services
 
         }
 
-        public Task<int> getCustomerAccountData(string TaxPayerId, string institution)
+        public async Task<dynamic> getCustomerAccountData(string TaxPayerId, string institution)
         {
-            throw new NotImplementedException();
+
+            var findtoken = await _illionToken.findCustomerToken(TaxPayerId, institution);
+
+            if (findtoken == null)
+            {
+                return null;
+            }
+
+
+            bankStateAccountData responseObj;
+
+            string result = null;
+
+            ReqAccount reqAccount = new ReqAccount()
+            {
+                customerId = findtoken.customerId,
+                encryptionKey = findtoken.encryptionKey
+            };
+
+
+            // Initialization.  
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            // HTTP POST  
+            response = await client.PostAsJsonAsync("customer/data", reqAccount).ConfigureAwait(false);
+
+
+
+            // Verification  
+            if (response.IsSuccessStatusCode)
+            {
+
+
+                // Reading Response.  
+                result = response.Content.ReadAsStringAsync().Result;
+
+                responseObj = JsonConvert.DeserializeObject<bankStateAccountData>(result);
+
+                //when deserialize object, assign null value also to it attribute 
+
+
+                if (responseObj.accounts == null)
+                {
+
+                    var deresult = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+                    if (deresult["error_code"] == "40101")
+                    {
+                        var updatecredential = await this.updatecustomertoken(TaxPayerId, institution);
+
+                        if (updatecredential == 1)
+                        {
+                            var gettoken = await _illionToken.findCustomerToken(TaxPayerId, institution);
+
+
+
+                            ReqAccount reqAccount1 = new ReqAccount()
+                            {
+                                customerId = gettoken.customerId,
+                                encryptionKey = gettoken.encryptionKey
+                            };
+
+
+                            response = await client.PostAsJsonAsync("customer/data", reqAccount1).ConfigureAwait(false);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                result = response.Content.ReadAsStringAsync().Result;
+
+                                responseObj = JsonConvert.DeserializeObject<bankStateAccountData>(result);
+
+                                if (responseObj.accounts == null)
+                                {
+
+                                    var deresult1 = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+                                    if (deresult1["error_code"] == "40101")
+                                    {
+                                        return "somthing is happend";
+                                    }
+
+                                }
+
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return result;
+                    }
+
+                }
+
+
+                IllionToken lasttoken = new IllionToken()
+                {
+                    institution = institution,
+                    TaxPayerId = TaxPayerId,
+                    customerId = responseObj.customer.customerId,
+                    encryptionKey = responseObj.customer.encryptionKey
+                };
+
+                var tokenupdate = await _illionToken.updateCustomerTokenOnly(lasttoken);
+
+                if (tokenupdate == 0)
+                {
+                    return "not last token update";
+                }
+
+
+                return responseObj;
+
+
+            }
+
+            return "api not work";
+
         }
 
         public async Task<dynamic> ListCustomerAccount(string TaxPayerId,string institution)

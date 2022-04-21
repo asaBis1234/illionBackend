@@ -55,7 +55,7 @@ namespace Illion0.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("accountlist")]
 
         public async Task<IActionResult> Getcustomer(string taxpayerid,string institution)
         {
@@ -74,6 +74,30 @@ namespace Illion0.Controllers
             {
                 return BadRequest(ex.Message);
                 
+            }
+        }
+
+
+
+        [HttpGet("transactiondata")]
+
+        public async Task<IActionResult> Getcustomerdata(string taxpayerid, string institution)
+        {
+            try
+            {
+                var res = await _illion.getCustomerAccountData(taxpayerid, institution);
+
+                if (res == null)
+                {
+                    return NotFound("invalid input");
+                }
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
             }
         }
     }

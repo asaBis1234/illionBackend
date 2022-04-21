@@ -15,7 +15,7 @@ namespace Illion0.Interface
         public Task<int> updatecustomertoken(string TaxPayerId, string institution);
 
 
-        public Task<int> getCustomerAccountData(string TaxPayerId, string institution);
+        public Task<dynamic> getCustomerAccountData(string TaxPayerId, string institution);
 
     }
 }

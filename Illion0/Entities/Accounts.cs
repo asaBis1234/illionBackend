@@ -1,6 +1,7 @@
 ﻿namespace Illion0.Entities
 {
    
+    /*
 
     public class Account
     {
@@ -16,12 +17,14 @@
         public string interestRate { get; set; }
     }
 
+    */
     public class Customer
     {
         public string customerId { get; set; }
         public string encryptionKey { get; set; }
     }
 
+    
     public class Accounts
     {
         public List<Account> accounts { get; set; }
@@ -30,7 +33,7 @@
         public Customer customer { get; set; }
         public string dataRequestLink { get; set; }
     }
-
+    
 
     public class ReqAccount
     {

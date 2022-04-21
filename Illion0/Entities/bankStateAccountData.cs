@@ -2318,7 +2318,7 @@ namespace Illion0.Entities
         public Analysis analysis { get; set; }
     }
 
-    /*public class Account
+    public class Account
     {
         public string accountHolder { get; set; }
         public string name { get; set; }
@@ -2350,7 +2350,7 @@ namespace Illion0.Entities
     */
     public class bankStateAccountData
     {
-        public Accounts accounts { get; set; }
+        public Account accounts { get; set; }
         public string user_token { get; set; }
         public string referral_code { get; set; }
         public string reportsLink { get; set; }
