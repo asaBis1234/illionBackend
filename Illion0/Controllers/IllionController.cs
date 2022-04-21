@@ -57,11 +57,16 @@ namespace Illion0.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> Getcustomer(string tx,string ins)
+        public async Task<IActionResult> Getcustomer(string taxpayerid,string institution)
         {
             try
             {
-                var res=await _illion.ListCustomerAccount(tx,ins);
+                var res=await _illion.ListCustomerAccount(taxpayerid, institution);
+
+                if(res == null)
+                {
+                    return NotFound("invalid input");
+                }
 
                 return Ok(res);
             }
