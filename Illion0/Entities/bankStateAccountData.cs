@@ -2318,8 +2318,15 @@ namespace Illion0.Entities
         public Analysis analysis { get; set; }
     }
 
-    public class Account
+    public class AllAccount
     {
+       
+        public BankOfStatements bank_of_statements { get; set; }
+    }
+
+    public class MainAccount
+    {
+
         public string accountHolder { get; set; }
         public string name { get; set; }
         public string accountNumber { get; set; }
@@ -2332,12 +2339,12 @@ namespace Illion0.Entities
         public StatementData statementData { get; set; }
         public string institution { get; set; }
         public string interestRate { get; set; }
-        public BankOfStatements bank_of_statements { get; set; }
+
     }
 
     public class BankOfStatements
     {
-        public List<Account> accounts { get; set; }
+        public List<MainAccount> accounts { get; set; }
     }
 
 
@@ -2350,7 +2357,7 @@ namespace Illion0.Entities
     */
     public class bankStateAccountData
     {
-        public Account accounts { get; set; }
+        public AllAccount accounts { get; set; }
         public string user_token { get; set; }
         public string referral_code { get; set; }
         public string reportsLink { get; set; }

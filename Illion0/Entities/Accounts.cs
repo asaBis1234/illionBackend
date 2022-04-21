@@ -1,7 +1,7 @@
 ﻿namespace Illion0.Entities
 {
    
-    /*
+    
 
     public class Account
     {
@@ -17,7 +17,7 @@
         public string interestRate { get; set; }
     }
 
-    */
+    
     public class Customer
     {
         public string customerId { get; set; }
