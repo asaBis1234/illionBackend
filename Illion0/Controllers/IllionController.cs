@@ -63,7 +63,7 @@ namespace Illion0.Controllers
             {
                 var res=await _illion.ListCustomerAccount(taxpayerid, institution);
 
-                if(res == null)
+                if(res.Item1.accounts == null)
                 {
                     return NotFound("invalid input");
                 }

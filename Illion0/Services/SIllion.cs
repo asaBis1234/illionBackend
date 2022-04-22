@@ -314,7 +314,7 @@ namespace Illion0.Services
 
         }
 
-        public async Task<dynamic> ListCustomerAccount(string TaxPayerId,string institution)
+        public async Task<(Accounts,string)> ListCustomerAccount(string TaxPayerId,string institution)
         {
             try
             {
@@ -322,7 +322,7 @@ namespace Illion0.Services
 
                 if(findtoken == null)
                 {
-                    return null;
+                    return (null,null);
                 }
 
 
@@ -395,7 +395,8 @@ namespace Illion0.Services
 
                                         if (deresult1["error_code"] == "40101")
                                         {
-                                            return "somthing is happend";
+                                            
+                                            return (null,"somthing is happend");
                                         }
 
                                     }
@@ -406,7 +407,7 @@ namespace Illion0.Services
                         }
                         else
                         {
-                            return result;
+                            return (null,result);
                         }
 
                     }
@@ -424,23 +425,23 @@ namespace Illion0.Services
 
                     if (tokenupdate == 0)
                     {
-                        return "not last token update";
+                        return (null,"not last token update");
                     }
 
 
-                    return responseObj;
+                    return (responseObj,null);
 
 
                 }
 
-                return "api not work";
+                return (null,"api not work");
                 
                 }
             catch (Exception ex)
             {
 
                 Console.Write(ex);
-                return ex.Message;
+                return (null,ex.Message);
             }
         }
 

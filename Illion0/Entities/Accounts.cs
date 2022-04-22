@@ -1,8 +1,11 @@
-﻿namespace Illion0.Entities
-{
-   
-    
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace Illion0.Entities
+{
+
+
+    [Table("CustomerAccount")]
     public class Account
     {
         public string accountHolder { get; set; }
@@ -17,24 +20,29 @@
         public string interestRate { get; set; }
     }
 
-    
+    [NotMapped]
     public class Customer
     {
         public string customerId { get; set; }
         public string encryptionKey { get; set; }
     }
 
-    
+    [Table("CustomerAccounts")]
     public class Accounts
     {
+        
+        [Key]
+        public string TaxPayerId { get; set; }
+
+        public string institution { get; set; }
         public List<Account> accounts { get; set; }
         public string user_token { get; set; }
         public string referral_code { get; set; }
         public Customer customer { get; set; }
         public string dataRequestLink { get; set; }
     }
-    
 
+    [NotMapped]
     public class ReqAccount
     {
         public string customerId { get; set; }

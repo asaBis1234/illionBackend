@@ -8,7 +8,7 @@ namespace Illion0.Interface
 
         public Task<dynamic> createCustomer(CustomerCredential customer);
 
-        public Task<dynamic> ListCustomerAccount(string TaxPayerId, string institution);
+        public Task<(Accounts,string)> ListCustomerAccount(string TaxPayerId, string institution);
 
         public Task<IllionCredential> GetCustomerAccountcredential(string TaxPayerId, string institution);
 
